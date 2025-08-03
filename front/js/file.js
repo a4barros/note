@@ -34,12 +34,14 @@ function ls(directory) {
                 <th class="colapse">modified</th>
                 <th class="colapse">size</th>
                 <th></th>
+                <th></th>
             `
             if (wd != "/") {
                 let parent = wd.split("/").slice(0, -1).join("/")
                 if (parent === "") parent = "/"
                 up += `<tr style="cursor: pointer">
                 <td onClick="ls('${parent}')">⬆️..</td>
+                <td onClick="ls('${parent}')"></td>
                 <td onClick="ls('${parent}')"></td>
                 <td onClick="ls('${parent}')"></td>
                 <td onClick="ls('${parent}')"></td>
@@ -54,6 +56,7 @@ function ls(directory) {
                     <td onClick="ls('${file.path}')">📂${file.name}</td>
                     <td onClick="ls('${file.path}')" class="fit colapse">${m.day}/${m.month}/${m.year} ${m.time}</td>
                     <td onClick="ls('${file.path}')" class="fit colapse">${file.size}</td>
+                    <td onClick="mv('${file.path}')" class="fit a">ren</td>
                     ${deleteDir}
                     </tr>`
                 }
@@ -62,7 +65,8 @@ function ls(directory) {
                     <td onClick="readFile('${file.path}')">📄${file.name}</td>
                     <td onClick="readFile('${file.path}')" class="fit colapse">${m.day}/${m.month}/${m.year} ${m.time}</td>
                     <td onClick="readFile('${file.path}')" class="fit colapse">${file.size}</td>
-                    <td class="fit" onClick="rm('${file.path}')">del</td>
+                    <td onClick="mv('${file.path}')" class="fit a">ren</td>
+                    <td onClick="rm('${file.path}')" class="fit a">del</td>
                     </tr>`
                 }
             }).join("")
@@ -113,6 +117,21 @@ async function mkdir() {
     }
     fetch(`${window.API_URL}/fileserver/mkdir?path=${wd}/${dirName}`, {
         method: "POST",
+        credentials: "include"
+    })
+    .then(response => response.json())
+    .then(data => { 
+        ls(wd)
+    })
+}
+
+async function mv(path) {
+    const newName = await confirmation("Rename to");
+    if (newName === null) {
+        return;
+    }
+    fetch(`${window.API_URL}/fileserver/mv?path=${path}&newPath=${wd}/${newName}`, {
+        method: "PUT",
         credentials: "include"
     })
     .then(response => response.json())

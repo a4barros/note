@@ -53,6 +53,7 @@ func main() {
 	fileserverInternal.Use(middleware.GetPathMiddleware())
 	fileserverInternal.GET("/ls", routes.Ls)
 	fileserverInternal.POST("/mkdir", routes.Mkdir)
+	fileserverInternal.PUT("/mv", routes.Mv)
 	fileserverInternal.POST("/write", routes.WriteFile)
 	fileserverInternal.DELETE("/rm", routes.Rm)
 	fileserverInternal.GET("/read", routes.ReadFile)

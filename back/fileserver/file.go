@@ -96,6 +96,10 @@ func Mkdir(unsafePath string, userID uint) error {
 	return os.Mkdir(getSafePath(unsafePath, userID), os.ModePerm)
 }
 
+func Mv(unsafePath string, unsafeNewPath string, userID uint) error {
+	return os.Rename(getSafePath(unsafePath, userID), getSafePath(unsafeNewPath, userID))
+}
+
 func GetFullPathAndName(unsafePath string, userID uint) (string, string, error) {
 	// Returns safe path, file name and error
 	safePath := getSafePath(unsafePath, userID)

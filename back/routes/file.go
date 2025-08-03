@@ -29,6 +29,18 @@ func Mkdir(c *gin.Context) {
 	c.JSON(200, gin.H{"data": "ok"})
 }
 
+func Mv(c *gin.Context) {
+	unsafePath := c.GetString("unsafePath")
+	unsafeNewPath := c.Query("newPath")
+	userId := c.GetUint("userId")
+	err := fileserver.Mv(unsafePath, unsafeNewPath, userId)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(200, gin.H{"data": "ok"})
+}
+
 func Rm(c *gin.Context) {
 	unsafePath := c.GetString("unsafePath")
 	userId := c.GetUint("userId")

@@ -11,13 +11,16 @@ table {
 
 th,
 td {
-    padding: 10px 20px;
+    padding: 10px 14px;
     border-bottom: 1px solid #444;
     font-size: 18px;
     text-align: left;
     button {
         margin-left: 10px;
     }
+}
+td.a:hover {
+    background-color: #465cd1;
 }
 td.fit {
     width: 1%;
