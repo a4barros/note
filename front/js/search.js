@@ -1,5 +1,19 @@
 document.getElementById("search").addEventListener("input", function () { search(this) })
 
+document.getElementById("search").addEventListener("focus", function () {
+    const buttons = document.getElementsByClassName("control-bar-button");
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].style.display = "none";
+    }
+});
+
+document.getElementById("search").addEventListener("blur", function () {
+    const buttons = document.getElementsByClassName("control-bar-button");
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].style.display = "";
+    }
+});
+
 function search(inputElement) {
     const searchText = inputElement.value.toLowerCase().trim();
     const notes = document.getElementById("notes-container").children

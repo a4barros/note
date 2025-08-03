@@ -4,7 +4,7 @@
 <head>
     <title>Note</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.9" />
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/scrollbar.css">
     <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
@@ -35,9 +35,9 @@
     </div>
     <content>
         <div class="control-bar">
-            <button onclick="addNote.showModal()">New</button>
-            <button onclick="toggleFilters()">Config</button>
-            <button onclick="window.location.href = '/file'">File</button>
+            <button class="control-bar-button" onclick="addNote.showModal()">New</button>
+            <button class="control-bar-button" onclick="toggleFilters()">Config</button>
+            <button class="control-bar-button" onclick="window.location.href = '/file'">File</button>
             <input id="search" type="text" placeholder="search">
         </div>
         <div id="filter-container" class="grid box padding20" style="display: none;">
