@@ -40,7 +40,7 @@ function ls(directory) {
                 let parent = wd.split("/").slice(0, -1).join("/")
                 if (parent === "") parent = "/"
                 up += `<tr style="cursor: pointer">
-                <td onClick="ls('${parent}')">⬆️..</td>
+                <td onClick="ls('${parent}')">⬆️ ..</td>
                 <td onClick="ls('${parent}')"></td>
                 <td onClick="ls('${parent}')"></td>
                 <td onClick="ls('${parent}')"></td>
@@ -53,7 +53,7 @@ function ls(directory) {
 
                 if (file.isDirectory) {
                     return `<tr style="cursor: pointer">
-                    <td onClick="ls('${file.path}')">📂${file.name}</td>
+                    <td onClick="ls('${file.path}')">📂 ${file.name}</td>
                     <td onClick="ls('${file.path}')" class="fit colapse">${m.day}/${m.month}/${m.year} ${m.time}</td>
                     <td onClick="ls('${file.path}')" class="fit colapse">${file.size}</td>
                     <td onClick="mv('${file.path}')" class="fit a">ren</td>
@@ -62,7 +62,7 @@ function ls(directory) {
                 }
                 else {
                     return `<tr style="cursor: pointer">
-                    <td onClick="readFile('${file.path}')">📄${file.name}</td>
+                    <td onClick="readFile('${file.path}')">📄 ${file.name}</td>
                     <td onClick="readFile('${file.path}')" class="fit colapse">${m.day}/${m.month}/${m.year} ${m.time}</td>
                     <td onClick="readFile('${file.path}')" class="fit colapse">${file.size}</td>
                     <td onClick="mv('${file.path}')" class="fit a">ren</td>
