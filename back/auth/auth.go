@@ -50,6 +50,7 @@ func cachePurge() {
 				sessionsCache.mutex.Lock()
 				defer sessionsCache.mutex.Unlock()
 				clear(sessionsCache.active)
+				db.CleanSessions()
 			}()
 		}
 	}
@@ -71,7 +72,6 @@ func tokenGenerator() string {
 }
 
 func Login(outside AuthExternal) (string, error) {
-	db.CleanSessions()
 	user, err := db.GetUser(outside.Username)
 	if err != nil {
 		return "", errors.New("invalid auth")
