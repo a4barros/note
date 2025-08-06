@@ -68,7 +68,7 @@ type AuthExternal struct {
 func tokenGenerator() string {
 	b := make([]byte, 128)
 	rand.Read(b)
-	return base64.StdEncoding.EncodeToString(b)
+	return base64.URLEncoding.EncodeToString(b)
 }
 
 func Login(outside AuthExternal) (string, error) {
