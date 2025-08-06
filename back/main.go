@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"note/db"
 	"note/middleware"
 	"note/noteConfig"
@@ -57,6 +58,23 @@ func main() {
 	fileserverInternal.POST("/write", routes.WriteFile)
 	fileserverInternal.DELETE("/rm", routes.Rm)
 	fileserverInternal.GET("/read", routes.ReadFile)
+
+	webdavRoutes := r.Group("/webdav", middleware.WebDavAuthMiddleware())
+	{
+		webdavRoutes.Handle(http.MethodGet, "/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle(http.MethodPut, "/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle(http.MethodPost, "/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle(http.MethodDelete, "/*path", middleware.WebDAVPerUserHandler())
+
+		webdavRoutes.Handle("PROPFIND", "/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle("MKCOL", "/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle("PROPPATCH", "/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle("COPY", "/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle("MOVE", "/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle("LOCK", "/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle("UNLOCK", "/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle("OPTIONS", "/*path", middleware.WebDAVPerUserHandler())
+	}
 
 	r.Run(":5003")
 }

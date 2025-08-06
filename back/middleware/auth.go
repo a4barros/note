@@ -22,3 +22,20 @@ func AuthMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+func WebDavAuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		_, password, ok := c.Request.BasicAuth()
+		if !ok {
+			c.AbortWithStatusJSON(401, gin.H{"error": "unauthorized"})
+			return
+		}
+		userId, err := auth.GetLoggedUserId(password)
+		if err != nil {
+			c.AbortWithStatusJSON(401, gin.H{"error": "unauthorized"})
+			return
+		}
+		c.Set("userId", userId)
+		c.Next()
+	}
+}
