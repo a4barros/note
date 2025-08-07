@@ -59,6 +59,12 @@ func main() {
 	fileserverInternal.DELETE("/rm", routes.Rm)
 	fileserverInternal.GET("/read", routes.ReadFile)
 
+	r.OPTIONS("/webdav/*path", func(c *gin.Context) {
+		c.Header("Allow", "OPTIONS, PROPFIND, GET, PUT, POST, DELETE, MKCOL, COPY, MOVE, LOCK, UNLOCK")
+		c.Header("DAV", "1, 2")
+		c.Status(http.StatusOK)
+	})
+
 	webdavRoutes := r.Group("/webdav", middleware.WebDavAuthMiddleware())
 	{
 		webdavRoutes.Handle(http.MethodGet, "/*path", middleware.WebDAVPerUserHandler())
@@ -73,7 +79,6 @@ func main() {
 		webdavRoutes.Handle("MOVE", "/*path", middleware.WebDAVPerUserHandler())
 		webdavRoutes.Handle("LOCK", "/*path", middleware.WebDAVPerUserHandler())
 		webdavRoutes.Handle("UNLOCK", "/*path", middleware.WebDAVPerUserHandler())
-		webdavRoutes.Handle("OPTIONS", "/*path", middleware.WebDAVPerUserHandler())
 	}
 
 	r.Run(":5003")
