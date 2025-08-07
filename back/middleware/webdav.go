@@ -19,7 +19,7 @@ func WebDAVPerUserHandler() gin.HandlerFunc {
 		// Create WebDAV handler for the user with userId
 		webdavRoot := fmt.Sprintf("./uploads/fileserver/%d", userId)
 		handler := &webdav.Handler{
-			Prefix:     "/webdav/",
+			Prefix:     "/webdav",
 			FileSystem: webdav.Dir(webdavRoot),
 			LockSystem: webdav.NewMemLS(),
 		}
