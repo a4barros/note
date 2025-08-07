@@ -65,20 +65,15 @@ func main() {
 		c.Status(http.StatusOK)
 	})
 
-	webdavRoutes := r.Group("/webdav", middleware.WebDavAuthMiddleware())
-	{
-		webdavRoutes.Handle(http.MethodGet, "/*path", middleware.WebDAVPerUserHandler())
-		webdavRoutes.Handle(http.MethodPut, "/*path", middleware.WebDAVPerUserHandler())
-		webdavRoutes.Handle(http.MethodPost, "/*path", middleware.WebDAVPerUserHandler())
-		webdavRoutes.Handle(http.MethodDelete, "/*path", middleware.WebDAVPerUserHandler())
+	webdavRoutes := r.Group("/", middleware.WebDavAuthMiddleware())
 
-		webdavRoutes.Handle("PROPFIND", "/*path", middleware.WebDAVPerUserHandler())
-		webdavRoutes.Handle("MKCOL", "/*path", middleware.WebDAVPerUserHandler())
-		webdavRoutes.Handle("PROPPATCH", "/*path", middleware.WebDAVPerUserHandler())
-		webdavRoutes.Handle("COPY", "/*path", middleware.WebDAVPerUserHandler())
-		webdavRoutes.Handle("MOVE", "/*path", middleware.WebDAVPerUserHandler())
-		webdavRoutes.Handle("LOCK", "/*path", middleware.WebDAVPerUserHandler())
-		webdavRoutes.Handle("UNLOCK", "/*path", middleware.WebDAVPerUserHandler())
+	methods := []string{
+		http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete, "PROPFIND", "MKCOL", "PROPPATCH", "COPY", "MOVE", "LOCK", "UNLOCK",
+	}
+
+	for _, method := range methods {
+		webdavRoutes.Handle(method, "/webdav/*path", middleware.WebDAVPerUserHandler())
+		webdavRoutes.Handle(method, "/webdav", middleware.WebDAVPerUserHandler())
 	}
 
 	r.Run(":5003")
