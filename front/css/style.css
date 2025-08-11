@@ -24,7 +24,7 @@ content {
     overflow-x: scroll;
     border: 0;
     * {
-        margin-right: 10px;
+        margin-right: 5px;
     }
     .checkbox-label {
         background-color: #444;
