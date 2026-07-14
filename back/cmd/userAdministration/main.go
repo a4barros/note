@@ -94,7 +94,7 @@ func ListUsers() {
 
 	fmt.Println("Users:")
 	for _, user := range users {
-		fmt.Printf("- %d (%s)\n", user.ID, user.Username)
+		fmt.Printf("- %s (id=%d)\n", user.Username, user.ID)
 	}
 }
 
@@ -111,7 +111,13 @@ func DeleteUser() {
 		return
 	}
 
-	err := db.DeleteUser(username)
+	_, err := db.GetUserByUsername(username)
+	if err != nil {
+		fmt.Println("User not found:", err)
+		os.Exit(1)
+	}
+
+	err = db.DeleteUser(username)
 	if err != nil {
 		fmt.Println("Failed to delete user:", err)
 		os.Exit(1)

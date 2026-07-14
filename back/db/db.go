@@ -50,6 +50,12 @@ func DeleteUser(username string) error {
 	return result.Error
 }
 
+func GetUserByUsername(username string) (User, error) {
+	var user User
+	result := db.Where("username = ?", username).First(&user)
+	return user, result.Error
+}
+
 func InsertNote(
 	title string,
 	content string,
