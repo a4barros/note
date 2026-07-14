@@ -11,7 +11,7 @@ run: ## Start development server
 	go run main.go
 
 admin: ## User administration
-	go run cmd/userAdministration/main.go
+	docker compose exec note-back go run cmd/userAdministration/main.go
 
 help:  ## Show this exact message
 	@echo "Usage: make [target]"

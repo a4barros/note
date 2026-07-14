@@ -94,7 +94,7 @@ func ListUsers() {
 
 	fmt.Println("Users:")
 	for _, user := range users {
-		fmt.Printf("- %s (%s)", user.ID, user.Username)
+		fmt.Printf("- %d (%s)\n", user.ID, user.Username)
 	}
 }
 
