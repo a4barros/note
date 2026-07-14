@@ -39,6 +39,12 @@ func EditUser(username string, password string, totp string) error {
 	return result.Error
 }
 
+func ListUsers() ([]User, error) {
+	var users []User
+	result := db.Find(&users)
+	return users, result.Error
+}
+
 func DeleteUser(username string) error {
 	result := db.Where("username = ?", username).Delete(&User{})
 	return result.Error

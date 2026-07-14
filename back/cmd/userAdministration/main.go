@@ -18,12 +18,14 @@ func main() {
 	fmt.Println("1. Create user")
 	fmt.Println("2. Edit user")
 	fmt.Println("3. Delete user")
+	fmt.Println("4. List users")
 	option := 0
 	fmt.Scanf("%d", &option)
 	fmap := make(map[int]func())
 	fmap[1] = CreateUser
 	fmap[2] = EditUser
 	fmap[3] = DeleteUser
+	fmap[4] = ListUsers
 	fmap[option]()
 }
 
@@ -81,6 +83,19 @@ func EditUser() {
 	}
 
 	fmt.Println("User updated")
+}
+
+func ListUsers() {
+	users, err := db.ListUsers()
+	if err != nil {
+		fmt.Println("Failed to list users:", err)
+		os.Exit(1)
+	}
+
+	fmt.Println("Users:")
+	for _, user := range users {
+		fmt.Printf("- %s (%s)", user.ID, user.Username)
+	}
 }
 
 func DeleteUser() {
