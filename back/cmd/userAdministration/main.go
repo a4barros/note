@@ -14,19 +14,25 @@ import (
 
 func main() {
 	db.Init()
-	fmt.Println("Select option:")
-	fmt.Println("1. Create user")
-	fmt.Println("2. Edit user")
-	fmt.Println("3. Delete user")
-	fmt.Println("4. List users")
-	option := 0
-	fmt.Scanf("%d", &option)
-	fmap := make(map[int]func())
-	fmap[1] = CreateUser
-	fmap[2] = EditUser
-	fmap[3] = DeleteUser
-	fmap[4] = ListUsers
-	fmap[option]()
+	for true {
+		fmt.Println("Select option:")
+		fmt.Println("0. Exit")
+		fmt.Println("1. Create user")
+		fmt.Println("2. Edit user")
+		fmt.Println("3. Delete user")
+		fmt.Println("4. List users")
+		option := 0
+		fmt.Scanf("%d", &option)
+		if option == 0 {
+			break
+		}
+		fmap := make(map[int]func())
+		fmap[1] = CreateUser
+		fmap[2] = EditUser
+		fmap[3] = DeleteUser
+		fmap[4] = ListUsers
+		fmap[option]()
+	}
 }
 
 func CreateUser() {
