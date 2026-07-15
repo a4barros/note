@@ -65,6 +65,12 @@ func EditUser() {
 	var username string
 	fmt.Scanf("%s", &username)
 
+	_, err := db.GetUserByUsername(username)
+	if err != nil {
+		fmt.Println("User not found:", err)
+		os.Exit(1)
+	}
+
 	fmt.Printf("New password (leave blank to keep unchanged): ")
 	passwordBytes, err := term.ReadPassword(int(syscall.Stdin))
 	if err != nil {
@@ -102,6 +108,9 @@ func ListUsers() {
 	for _, user := range users {
 		fmt.Printf("- %s (id=%d)\n", user.Username, user.ID)
 	}
+
+	fmt.Print("Press <enter> to continue")
+	fmt.Scanf("\n")
 }
 
 func DeleteUser() {
@@ -109,18 +118,18 @@ func DeleteUser() {
 	var username string
 	fmt.Scanf("%s", &username)
 
+	_, err := db.GetUserByUsername(username)
+	if err != nil {
+		fmt.Println("User not found:", err)
+		os.Exit(1)
+	}
+
 	fmt.Printf("Are you sure you want to delete user '%s'? (y/N): ", username)
 	var confirm string
 	fmt.Scanf("%s", &confirm)
 	if confirm != "y" && confirm != "Y" {
 		fmt.Println("Aborted deletion")
 		return
-	}
-
-	_, err := db.GetUserByUsername(username)
-	if err != nil {
-		fmt.Println("User not found:", err)
-		os.Exit(1)
 	}
 
 	err = db.DeleteUser(username)
